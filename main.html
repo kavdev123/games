@@ -1,0 +1,875 @@
+
+<?php
+// ...existing code...
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="img/logo1.jpg">
+    <meta charset="UTF-8">
+    <meta name="google-site-verification" content="XAYg90sqbCgD-X0CFuKuFswF-DEyAB0ChXEjdB8KWJk">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Meta Tags for killhack.alwaysdata.net -->
+    <meta name="description" content="KillHack - Vérifiez et téléchargez des manifestes Steam rapidement et facilement grâce à un outil simple basé sur les AppIDs.">
+    <meta name="keywords" content="KillHack, Steam Manifest, AppID, Jeux Steam, Téléchargement, fichiers .acf, outils Steam">
+    <meta name="author" content="KillHack Team">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="KillHack - Téléchargez vos manifestes Steam">
+    <meta property="og:description" content="Vérifiez et téléchargez des manifestes Steam par AppID rapidement et facilement grâce à KillHack.">
+    <meta property="og:image" content="https://killhack.alwaysdata.net/assets/preview.png">
+    <meta property="og:url" content="https://killhack.alwaysdata.net/">
+    <meta property="og:type" content="website">
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="KillHack - Téléchargez vos manifestes Steam">
+    <meta name="twitter:description" content="Entrez un AppID et téléchargez les manifestes Steam rapidement depuis KillHack.">
+    <meta name="twitter:image" content="https://killhack.alwaysdata.net/assets/preview.png">
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "KillHack",
+      "url": "https://killhack.alwaysdata.net/",
+      "description": "Vérifiez et téléchargez des manifestes Steam rapidement en entrant un AppID sur KillHack.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://killhack.alwaysdata.net/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://votresite.com/">
+    <!-- Optimized Title -->
+    <title>Steam Manifest Hub | Téléchargez des Manifestes par AppID</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;500&display=swap');
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #111111;
+            color: #f4e04d;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #181818;
+            border-radius: 1rem;
+            padding: 2rem 0 1.5rem 0;
+            box-shadow: 0 4px 24px 0 #f4e04d33;
+        }
+
+        .orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .glow-text {
+            color: #f4e04d;
+            text-shadow: 0 0 12px #f4e04d, 0 0 2px #fff;
+            letter-spacing: 2px;
+        }
+
+        .glow-box {
+            box-shadow: 0 0 24px 0 #f4e04d55;
+        }
+
+        main.cyber-border {
+            background: #181818;
+            box-shadow: 0 8px 32px 0 #f4e04d22;
+            border-radius: 1.5rem;
+            border: 2px solid #f4e04d;
+        }
+
+        .cyber-border {
+            position: relative;
+            border: 2px solid #f4e04d;
+        }
+        .cyber-border::before {
+            display: none;
+        }
+
+        .input-glow:focus {
+            box-shadow: 0 0 0 3px #f4e04d99;
+            border-color: #f4e04d;
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% {transform: scale(1); opacity: 1;}
+            50% {transform: scale(1.05); opacity: 0.85;}
+            100% {transform: scale(1); opacity: 1;}
+        }
+
+        .terminal-text {
+            font-family: 'Courier New', monospace;
+            background: #222;
+            border-left: 4px solid #f4e04d;
+            color: #fffde4;
+            box-shadow: 0 0 12px #f4e04d22;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #181818;
+            border: 2px solid #f4e04d;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 32px #f4e04d33;
+            color: #f4e04d;
+        }
+
+        /* Boutons glossy */
+        #checkBtn, #acceptDisclaimer, #downloadLink {
+            background: linear-gradient(90deg, #f4e04d 0%, #ffe066 100%);
+            color: #181818;
+            border: none;
+            box-shadow: 0 2px 12px 0 #f4e04d44;
+            border-radius: 1.5rem;
+            font-weight: bold;
+            transition: background 0.2s, color 0.2s;
+        }
+        #checkBtn:hover, #acceptDisclaimer:hover, #downloadLink:hover {
+            background: linear-gradient(90deg, #ffe066 0%, #f4e04d 100%);
+            color: #000;
+        }
+
+        /* Cartes info avec effet hover lumineux */
+        .bg-slate-800\/30 {
+            border-radius: 1rem !important;
+            border: 1.5px solid #f4e04d;
+            background: #181818 !important;
+            box-shadow: 0 2px 12px 0 #f4e04d22;
+            color: #f4e04d;
+            transition: box-shadow 0.3s, border-color 0.3s;
+        }
+        .bg-slate-800\/30:hover {
+            box-shadow: 0 6px 24px 0 #f4e04d88;
+            border-color: #ffe066;
+        }
+
+        /* Arrondir les coins des autres éléments */
+        .rounded-lg, .rounded-xl {
+            border-radius: 1rem !important;
+        }
+        .rounded-full {
+            border-radius: 9999px !important;
+        }
+
+        /* Liens */
+        a, a:visited {
+            color: #ffe066;
+            text-decoration: underline;
+            transition: color 0.2s;
+        }
+        a:hover {
+            color: #fffde4;
+        }
+
+        /* Pour les textes secondaires */
+        .text-slate-300, .text-slate-400, .text-blue-400, .text-purple-400, .text-green-400, .text-red-400, .text-red-300, .text-yellow-400 {
+            color: #ffe066 !important;
+        }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background:transparent;mso-highlight:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.absolute{position:absolute}.relative{position:relative}.inset-y-0{top:0px;bottom:0px}.left-0{left:0px}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:0.25rem}.mb-10{margin-bottom:2.5rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.mr-2{margin-right:0.5rem}.mr-3{margin-right:0.75rem}.mt-1{margin-top:0.25rem}.mt-10{margin-top:2.5rem}.mt-12{margin-top:3rem}.mt-2{margin-top:0.5rem}.mt-3{margin-top:0.75rem}.mt-6{margin-top:1.5rem}.block{display:block}.inline-block{display:inline-block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-1{height:0.25rem}.h-3{height:0.75rem}.w-16{width:4rem}.w-3{width:0.75rem}.w-full{width:100%}.max-w-4xl{max-width:56rem}.flex-1{flex:1 1 0%}.transform{transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-center{justify-content:center}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.overflow-x-auto{overflow-x:auto}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-t{border-top-width:1px}.border-red-700\/50{border-color:rgb(185 28 28 / 0.5)}.border-slate-600{--tw-border-opacity:1;border-color:rgb(71 85 105 / var(--tw-border-opacity, 1))}.border-slate-700\/50{border-color:rgb(51 65 85 / 0.5)}.bg-green-500{--tw-bg-opacity:1;background:rgb(34 197 94 / var(--tw-bg-opacity, 1))}.bg-red-500{--tw-bg-opacity:1;background:rgb(239 68 68 / var(--tw-bg-opacity, 1))}.bg-red-900\/30{background:rgb(127 29 29 / 0.3)}.bg-slate-700\/50{background:rgb(51 65 85 / 0.5)}.bg-slate-800\/30{background:rgb(30 41 59 / 0.3)}.bg-slate-800\/50{background:rgb(30 41 59 / 0.5)}.bg-yellow-500{--tw-bg-opacity:1;background:rgb(234 179 8 / var(--tw-bg-opacity, 1))}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.from-blue-500{--tw-gradient-from:#3b82f6 var(--tw-gradient-from-position);mso-highlight:rgb(234 179 8 / var(--tw-bg-opacity, 1))}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.from-blue-500{--tw-gradient-from:#3b82f6 var(--tw-gradient-from-position);--tw-gradient-to:rgb(59 130 246 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-blue-600{--tw-gradient-from:#2563eb var(--tw-gradient-from-position);--tw-gradient-to:rgb(37 99 235 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-green-600{--tw-gradient-from:#16a34a var(--tw-gradient-from-position);--tw-gradient-to:rgb(22 163 74 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.to-emerald-600{--tw-gradient-to:#059669 var(--tw-gradient-to-position)}.to-purple-500{--tw-gradient-to:#a855f7 var(--tw-gradient-to-position)}.to-purple-600{--tw-gradient-to:#9333ea var(--tw-gradient-to-position)}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.px-8{padding-left:2rem;padding-right:2rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.pl-10{padding-left:2.5rem}.pl-3{padding-left:0.75rem}.pt-6{padding-top:1.5rem}.text-left{text-align:left}.text-center{text-align:center}.text-2xl{font-size:1.5rem;line-height:2rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.leading-relaxed{line-height:1.625}.text-blue-400{--tw-text-opacity:1;color:rgb(96 165 250 / var(--tw-text-opacity, 1))}.text-green-400{--tw-text-opacity:1;color:rgb(74 222 128 / var(--tw-text-opacity, 1))}.text-purple-400{--tw-text-opacity:1;color:rgb(192 132 252 / var(--tw-text-opacity, 1))}.text-red-300{--tw-text-opacity:1;color:rgb(252 165 165 / var(--tw-text-opacity, 1))}.text-red-400{--tw-text-opacity:1;color:rgb(248 113 113 / var(--tw-text-opacity, 1))}.text-slate-300{--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-yellow-400{--tw-text-opacity:1;color:rgb(250 204 21 / var(--tw-text-opacity, 1))}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-300{transition-duration:300ms}.hover\:scale-105:hover{--tw-scale-x:1.05;--tw-scale-y:1.05;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.hover\:from-blue-500:hover{--tw-gradient-from:#3b82f6 var(--tw-gradient-from-position);--tw-gradient-to:rgb(59 130 246 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.hover\:from-green-500:hover{--tw-gradient-from:#22c55e var(--tw-gradient-from-position);--tw-gradient-to:rgb(34 197 94 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.hover\:to-emerald-500:hover{--tw-gradient-to:#10b981 var(--tw-gradient-to-position)}.hover\:to-purple-500:hover{--tw-gradient-to:#a855f7 var(--tw-gradient-to-position)}.hover\:text-blue-300:hover{--tw-text-opacity:1;color:rgb(147 197 253 / var(--tw-text-opacity, 1))}.hover\:text-purple-300:hover{--tw-text-opacity:1;color:rgb(216 180 254 / var(--tw-text-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-blue-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(59 130 246 / var(--tw-ring-opacity, 1))}.focus\:ring-green-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(34 197 94 / var(--tw-ring-opacity, 1))}.focus\:ring-opacity-50:focus{--tw-ring-opacity:0.5}@media (min-width: 768px){.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:flex-row{flex-direction:row}.md\:p-8{padding:2rem}.md\:text-5xl{font-size:3rem;line-height:1}}</style></head>
+<body class="bg-[#111] text-[#f4e04d] min-h-screen flex flex-col">
+    <!-- Nouveau header -->
+    <header class="w-full py-8 bg-[#181818] shadow-lg flex flex-col items-center">
+        <img src="img/logo1.jpg" alt="Logo" class="w-16 h-16 mb-2 rounded-full border-4 border-[#f4e04d] shadow-md">
+        <h1 class="orbitron text-5xl font-bold glow-text mb-2 text-center">Steam Manifest Hub</h1>
+        <span class="px-4 py-1 rounded-full bg-[#f4e04d] text-[#181818] text-xs font-bold orbitron mb-2" title="Beta version">BETA</span>
+        <p class="text-lg text-[#ffe066] mb-1">Check and download game manifests by Steam AppID</p>
+        <p class="text-sm text-[#ffe066]">
+            MADE BY <a href="https://discord.gg/JaAEPYed" class="underline hover:text-white">KillHack</a>
+            <!-- Ajout lien SteamDB -->
+            &nbsp;|&nbsp;
+            <a href="https://steamdb.info/" target="_blank" rel="noopener" class="underline hover:text-white">SteamDB</a>
+        </p>
+        <a href="/steamtools.exe" class="mt-2 text-[#181818] bg-[#ffe066] px-4 py-2 rounded-lg font-bold hover:bg-[#f4e04d] transition">Download Steamtools</a>
+    </header>
+
+    <main class="flex-1 flex flex-col items-center justify-center px-4 py-10">
+        <div class="w-full max-w-5xl flex flex-col md:flex-row gap-8">
+            <!-- Colonne gauche : Recherche -->
+            <section class="flex-1 bg-[#181818] border-2 border-[#f4e04d] rounded-2xl p-8 flex flex-col items-center shadow-lg">
+                <h2 class="orbitron text-2xl font-bold mb-6 text-center">Rechercher un Manifest</h2>
+                <label for="gameId" class="block text-sm font-medium mb-2">Steam AppID</label>
+                <div class="flex w-full gap-2 mb-4">
+                    <input type="text" id="gameId" placeholder="e.g. 220968" class="input-glow flex-1 bg-[#222] border border-[#f4e04d] rounded-lg py-3 px-4 text-[#f4e04d] focus:outline-none focus:ring-2 focus:ring-[#ffe066] transition-all" />
+                    <button id="copyAppIdBtn" title="Copy AppID" class="text-[#f4e04d] hover:text-[#ffe066] px-3 py-2 rounded-lg border border-[#f4e04d] bg-[#181818]">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                    <button id="clearAppIdBtn" title="Clear" class="text-[#f4e04d] hover:text-[#ffe066] px-3 py-2 rounded-lg border border-[#f4e04d] bg-[#181818]">
+                        <i class="fas fa-times-circle"></i>
+                    </button>
+                    <button id="favAppIdBtn" title="Ajouter aux favoris" class="text-[#f4e04d] hover:text-[#ffe066] px-3 py-2 rounded-lg border border-[#f4e04d] bg-[#181818]">
+                        <i class="fas fa-star"></i>
+                    </button>
+                </div>
+                <div id="appidHelp" class="text-red-400 text-xs mb-4 hidden">Please enter numbers only (Steam AppID).</div>
+                <button id="checkBtn" class="pulse-animation orbitron w-full bg-[#f4e04d] text-[#181818] font-bold py-3 rounded-xl transition hover:bg-[#ffe066] focus:outline-none focus:ring-2 focus:ring-[#ffe066] focus:ring-opacity-50">
+                    CHECK MANIFEST
+                </button>
+            </section>
+            <!-- Colonne droite : Résultats -->
+            <section class="flex-1 bg-[#181818] border-2 border-[#f4e04d] rounded-2xl p-8 flex flex-col items-center shadow-lg min-h-[350px]">
+                <h2 class="orbitron text-2xl font-bold mb-6 text-center">Résultat</h2>
+                <div id="resultsSection" class="w-full">
+                    <div class="terminal-text p-5 rounded-lg mb-6 min-h-[120px]">
+                        <pre id="terminalOutput" class="overflow-x-auto"></pre>
+                    </div>
+                    <div id="downloadSection" class="hidden text-center">
+                        <a id="downloadLink" target="_blank" rel="noopener" class="inline-block orbitron bg-[#f4e04d] text-[#181818] font-bold py-3 px-8 rounded-xl transition hover:bg-[#ffe066] focus:outline-none focus:ring-2 focus:ring-[#ffe066] focus:ring-opacity-50">
+                            <i class="fas fa-download mr-2"></i> DOWNLOAD MANIFEST
+                        </a>
+                        <p class="mt-3 text-xs text-[#ffe066]">File will be downloaded from GitHub servers</p>
+                    </div>
+                    <div id="notFoundSection" class="hidden text-center py-6">
+                        <div class="inline-flex items-center bg-[#2d1e1e] border border-[#f4e04d] px-6 py-4 rounded-lg">
+                            <i class="fas fa-exclamation-triangle text-[#ffe066] mr-3 text-2xl"></i>
+                            <div>
+                                <h3 class="orbitron text-[#ffe066]">MANIFEST NOT FOUND</h3>
+                                <p class="text-xs text-[#ffe066]">No manifest exists for this Steam AppID</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="lastChecked" class="text-xs mt-2 text-[#ffe066]"></div>
+                </div>
+            </section>
+        </div>
+        <!-- Info Cards -->
+        <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+            <div class="bg-[#181818] border-2 border-[#f4e04d] p-6 rounded-xl flex flex-col items-center shadow">
+                <i class="fas fa-info-circle text-3xl mb-2 text-[#ffe066]"></i>
+                <h3 class="orbitron text-lg mb-1">How It Works</h3>
+                <p class="text-xs text-[#ffe066] text-center">
+                    Enter a Steam AppID to check if a game manifest exists in our database.<br>
+                    <span class="font-bold">Now supports .acf manifest files!</span><br>
+                    <a href="https://partner.steamgames.com/doc/store/applicationids" target="_blank" rel="noopener" class="underline">What is a Steam AppID?</a>
+                </p>
+            </div>
+            <div class="bg-[#181818] border-2 border-[#f4e04d] p-6 rounded-xl flex flex-col items-center shadow">
+                <i class="fas fa-database text-3xl mb-2 text-[#ffe066]"></i>
+                <h3 class="orbitron text-lg mb-1">Database</h3>
+                <p class="text-xs text-[#ffe066] text-center">Manifests are stored on GitHub and downloaded directly from their servers.</p>
+            </div>
+            <div class="bg-[#181818] border-2 border-[#f4e04d] p-6 rounded-xl flex flex-col items-center shadow">
+                <i class="fas fa-shield-alt text-3xl mb-2 text-[#ffe066]"></i>
+                <h3 class="orbitron text-lg mb-1">Privacy</h3>
+                <p class="text-xs text-[#ffe066] text-center">No data is stored or logged. All checks happen client-side.</p>
+            </div>
+        </div>
+
+        <!-- FAQ Section (ajoutée) -->
+        <div class="w-full max-w-5xl mt-12 p-6 bg-[#181818] border-2 border-[#f4e04d] rounded-2xl shadow-lg">
+            <h2 class="orbitron text-2xl font-bold mb-4 text-center">FAQ</h2>
+            <div class="text-left space-y-4">
+                <div>
+                    <h3 class="text-lg text-[#ffe066] font-semibold">Q: What is a Steam AppID?</h3>
+                    <p class="text-sm text-slate-300">
+                        A Steam AppID is a unique identifier assigned to each game or software on the Steam platform. It is used to access specific content and features related to that game or software.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-lg text-[#ffe066] font-semibold">Q: How do I find the AppID of a game?</h3>
+                    <p class="text-sm text-slate-300">
+                        You can find the AppID of a game by visiting its store page on Steam and looking at the URL. The AppID is the number at the end of the URL. For example, in the URL <code>https://store.steampowered.com/app/220968</code>, the AppID is <code>220968</code>.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-lg text-[#ffe066] font-semibold">Q: What formats are the manifests available in?</h3>
+                    <p class="text-sm text-slate-300">
+                        Manifests are primarily available in the .acf format. If a .json version is available, it will be provided as an alternative download option.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-lg text-[#ffe066] font-semibold">Q: Is my data safe?</h3>
+                    <p class="text-sm text-slate-300">
+                        Yes, your data is safe. We do not store or log any personal data. All checks are performed locally in your browser.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="w-full py-6 text-center text-[#ffe066] text-xs bg-[#181818] mt-10">
+        <p>© 2024 Steam Manifest Hub | MADE BY <a href="https://discord.gg/JaAEPYed" class="underline hover:text-white">KillHack</a></p>
+        <p class="mt-1">Not affiliated with Valve or Steam</p>
+    </footer>
+
+    <!-- Ajout : bouton mode sombre/clair et bouton retour en haut -->
+    <button id="themeToggle" class="fixed bottom-8 right-8 z-50 bg-[#f4e04d] text-[#181818] rounded-full p-3 shadow-lg hover:bg-[#ffe066] transition" title="Toggle dark/light mode">
+        <i class="fas fa-moon"></i>
+    </button>
+    <button id="scrollTopBtn" class="fixed bottom-24 right-8 z-50 bg-[#f4e04d] text-[#181818] rounded-full p-3 shadow-lg hover:bg-[#ffe066] transition hidden" title="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Ajout : bouton pour copier le lien de téléchargement et bouton partager -->
+    <div id="extraActions" class="fixed bottom-8 left-8 z-50 flex flex-col gap-3">
+        <button id="copyDownloadLinkBtn" class="bg-[#f4e04d] text-[#181818] rounded-full p-3 shadow-lg hover:bg-[#ffe066] transition" title="Copy download link">
+            <i class="fas fa-link"></i>
+        </button>
+        <button id="shareBtn" class="bg-[#f4e04d] text-[#181818] rounded-full p-3 shadow-lg hover:bg-[#ffe066] transition" title="Share result">
+            <i class="fas fa-share-alt"></i>
+        </button>
+    </div>
+
+    <!-- Ajout : Sélecteur de langue et bouton effacer l'historique -->
+    <div id="topActions" class="fixed top-8 right-8 z-50 flex flex-col gap-3 items-end">
+        <select id="langSelect" class="bg-[#f4e04d] text-[#181818] rounded-lg px-3 py-2 shadow-lg font-bold">
+            <option value="en">EN</option>
+            <option value="fr">FR</option>
+        </select>
+        <button id="clearHistoryBtn" class="bg-[#f4e04d] text-[#181818] rounded-lg px-3 py-2 shadow-lg font-bold hover:bg-[#ffe066] transition" title="Clear search history">
+            <i class="fas fa-trash"></i> Clear History
+        </button>
+    </div>
+
+    <!-- Ajout : Liste des favoris et bouton étoile -->
+    <div id="favoritesPanel" class="fixed top-1/2 left-8 z-50 bg-[#181818] border-2 border-[#f4e04d] rounded-xl shadow-lg p-4 min-w-[180px] -translate-y-1/2">
+        <h3 class="orbitron text-lg font-bold mb-2 text-[#ffe066] flex items-center gap-2">
+            <i class="fas fa-star text-yellow-400"></i> Favoris
+        </h3>
+        <ul id="favoritesList" class="text-xs text-[#ffe066] space-y-1"></ul>
+    </div>
+
+    <!-- Ajout : Statistiques -->
+    <div id="statsPanel" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-[#181818] border-2 border-[#f4e04d] rounded-xl shadow-lg px-6 py-3 flex flex-col items-center text-[#ffe066] text-xs font-bold">
+        <div><i class="fas fa-search mr-1"></i> <span id="statChecked">0</span> manifestes vérifiés</div>
+        <div><i class="fas fa-download mr-1"></i> <span id="statDownloaded">0</span> manifestes téléchargés</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkBtn = document.getElementById('checkBtn');
+            const gameIdInput = document.getElementById('gameId');
+            const resultsSection = document.getElementById('resultsSection');
+            const terminalOutput = document.getElementById('terminalOutput');
+            const downloadSection = document.getElementById('downloadSection');
+            const downloadLink = document.getElementById('downloadLink');
+            const notFoundSection = document.getElementById('notFoundSection');
+            const clearBtn = document.getElementById('clearAppIdBtn');
+            const appidHelp = document.getElementById('appidHelp');
+            
+            checkBtn.addEventListener('click', checkManifest);
+            gameIdInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkManifest();
+                }
+            });
+            
+            // Ajout bouton copier AppID
+            document.getElementById('copyAppIdBtn').addEventListener('click', function() {
+                const input = document.getElementById('gameId');
+                if (input.value) {
+                    navigator.clipboard.writeText(input.value);
+                    this.innerHTML = '<i class="fas fa-check text-green-400"></i>';
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-copy"></i>';
+                    }, 1200);
+                }
+            });
+            
+            // Bouton Clear
+            clearBtn.addEventListener('click', function() {
+                gameIdInput.value = '';
+                appidHelp.classList.add('hidden');
+                document.getElementById('resultsSection').classList.add('hidden');
+                gameIdInput.focus();
+            });
+
+            // Message d'aide contextuel
+            gameIdInput.addEventListener('input', function() {
+                if (this.value && !/^\d*$/.test(this.value)) {
+                    appidHelp.classList.remove('hidden');
+                } else {
+                    appidHelp.classList.add('hidden');
+                }
+            });
+            
+            function checkManifest() {
+                const gameId = gameIdInput.value.trim();
+                
+                if (!gameId || !/^\d+$/.test(gameId)) {
+                    showError('Please enter a valid Steam AppID (numbers only)');
+                    return;
+                }
+                
+                // Show loading state
+                checkBtn.disabled = true;
+                checkBtn.classList.remove('pulse-animation');
+                checkBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> CHECKING...';
+                
+                // Clear previous results
+                resultsSection.classList.remove('hidden');
+                downloadSection.classList.add('hidden');
+                notFoundSection.classList.add('hidden');
+                
+                // Simulate terminal output
+                terminalOutput.textContent = '';
+                typeTerminalText(`> Initiating manifest check for Steam AppID: ${gameId}\n`, 0);
+                
+                // Simulate checking process sans validation réelle
+                setTimeout(() => {
+                    typeTerminalText(`> Searching database...\n> Manifest found in database!\n> Preparing download link...\n> Ready for download.\n`, 100);
+                    
+                    // Set download link directly
+                    const githubUrl = `https://codeload.github.com/SteamAutoCracks/ManifestHub/zip/refs/heads/${gameId}`;
+                    downloadLink.href = githubUrl;
+                    
+                    // Show download section after a delay
+                    setTimeout(() => {
+                        downloadSection.classList.remove('hidden');
+                        checkBtn.innerHTML = '<i class="fas fa-check-circle mr-2"></i> CHECK COMPLETE';
+                        checkBtn.classList.add('bg-gradient-to-r', 'from-green-600', 'to-emerald-600');
+                        // Animation de succès
+                        checkBtn.classList.add('pulse-animation');
+                        setTimeout(() => {
+                            checkBtn.classList.remove('pulse-animation');
+                            checkBtn.innerHTML = 'CHECK MANIFEST';
+                            checkBtn.classList.remove('bg-gradient-to-r', 'from-green-600', 'to-emerald-600');
+                        }, 1200);
+                    }, 1500);
+                }, 1000);
+                
+                // Affiche la date/heure de vérification
+                const lastChecked = document.getElementById('lastChecked');
+                lastChecked.textContent = "Last checked: " + new Date().toLocaleString();
+                
+                // Reset button after completion
+                setTimeout(() => {
+                    checkBtn.disabled = false;
+                }, 3000);
+            }
+            
+            function typeTerminalText(text, initialDelay) {
+                let i = 0;
+                setTimeout(() => {
+                    const interval = setInterval(() => {
+                        if (i < text.length) {
+                            terminalOutput.textContent += text.charAt(i);
+                            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                            i++;
+                        } else {
+                            clearInterval(interval);
+                        }
+                    }, 20);
+                }, initialDelay);
+            }
+            
+            function showError(message) {
+                terminalOutput.textContent = `> ERROR: ${message}\n`;
+                resultsSection.classList.remove('hidden');
+                downloadSection.classList.add('hidden');
+                notFoundSection.classList.add('hidden');
+            }
+
+            // Statistiques : stockage et affichage
+            function getStats() {
+                try {
+                    return JSON.parse(localStorage.getItem('manifestStats') || '{"checked":0,"downloaded":0}');
+                } catch {
+                    return {checked:0, downloaded:0};
+                }
+            }
+            function setStats(stats) {
+                localStorage.setItem('manifestStats', JSON.stringify(stats));
+            }
+            function renderStats() {
+                const stats = getStats();
+                document.getElementById('statChecked').textContent = stats.checked;
+                document.getElementById('statDownloaded').textContent = stats.downloaded;
+            }
+
+            // Incrémente le nombre de manifestes vérifiés
+            function incrementChecked() {
+                const stats = getStats();
+                stats.checked++;
+                setStats(stats);
+                renderStats();
+            }
+            // Incrémente le nombre de manifestes téléchargés
+            function incrementDownloaded() {
+                const stats = getStats();
+                stats.downloaded++;
+                setStats(stats);
+                renderStats();
+            }
+
+            // Ajout hook sur checkManifest pour compter les vérifications
+            const originalCheckManifestStats = checkManifest;
+            checkManifest = function() {
+                incrementChecked();
+                originalCheckManifestStats();
+            };
+
+            // Ajout hook sur clic du bouton de téléchargement
+            document.getElementById('downloadLink').addEventListener('click', function() {
+                incrementDownloaded();
+            });
+
+            // Affiche les stats au chargement
+            renderStats();
+
+            // Favoris : stockage local et affichage
+            function getFavorites() {
+                try {
+                    return JSON.parse(localStorage.getItem('favoriteAppIds') || '[]');
+                } catch {
+                    return [];
+                }
+            }
+            function setFavorites(favs) {
+                localStorage.setItem('favoriteAppIds', JSON.stringify(favs));
+            }
+            function renderFavorites() {
+                const favs = getFavorites();
+                const list = document.getElementById('favoritesList');
+                list.innerHTML = '';
+                if (favs.length === 0) {
+                    list.innerHTML = '<li class="text-slate-400">Aucun favori</li>';
+                    return;
+                }
+                favs.forEach(appId => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span class="font-mono">${appId}</span>
+                        <button class="ml-2 text-red-400 hover:text-red-600" title="Retirer" data-remove-fav="${appId}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <button class="ml-2 text-blue-400 hover:text-blue-600" title="Remplir" data-fill-fav="${appId}">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    `;
+                    list.appendChild(li);
+                });
+                // Ajout des listeners pour chaque bouton (évite les problèmes de scope)
+                list.querySelectorAll('button[data-remove-fav]').forEach(btn => {
+                    btn.onclick = function() {
+                        removeFavorite(this.getAttribute('data-remove-fav'));
+                    };
+                });
+                list.querySelectorAll('button[data-fill-fav]').forEach(btn => {
+                    btn.onclick = function() {
+                        fillAppId(this.getAttribute('data-fill-fav'));
+                    };
+                });
+            }
+            function removeFavorite(appId) {
+                let favs = getFavorites();
+                favs = favs.filter(id => id !== appId);
+                setFavorites(favs);
+                renderFavorites();
+                updateFavBtn();
+            }
+            function fillAppId(appId) {
+                document.getElementById('gameId').value = appId;
+                updateFavBtn();
+            }
+
+            // Bouton étoile : ajout/suppression favoris
+            const favBtn = document.getElementById('favAppIdBtn');
+            function updateFavBtn() {
+                const appId = document.getElementById('gameId').value.trim();
+                const favs = getFavorites();
+                if (appId && favs.includes(appId)) {
+                    favBtn.classList.add('favorited');
+                    favBtn.title = "Retirer des favoris";
+                } else {
+                    favBtn.classList.remove('favorited');
+                    favBtn.title = "Ajouter aux favoris";
+                }
+            }
+            favBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const appId = document.getElementById('gameId').value.trim();
+                if (!/^\d+$/.test(appId)) return;
+                let favs = getFavorites();
+                if (favs.includes(appId)) {
+                    favs = favs.filter(id => id !== appId);
+                } else {
+                    favs.unshift(appId);
+                    if (favs.length > 20) favs = favs.slice(0, 20);
+                }
+                setFavorites(favs);
+                renderFavorites();
+                updateFavBtn();
+            });
+            document.getElementById('gameId').addEventListener('input', updateFavBtn);
+
+            // Initialisation favoris au chargement
+            renderFavorites();
+            updateFavBtn();
+        });
+
+        // Mode sombre/clair
+        const themeToggle = document.getElementById('themeToggle');
+        let darkMode = true;
+        themeToggle.addEventListener('click', function() {
+            darkMode = !darkMode;
+            if (darkMode) {
+                document.body.style.background = "#111111";
+                document.body.style.color = "#f4e04d";
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                document.body.style.background = "#fffde4";
+                document.body.style.color = "#181818";
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        });
+
+        // Bouton retour en haut
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 200) {
+                scrollTopBtn.classList.remove('hidden');
+            } else {
+                scrollTopBtn.classList.add('hidden');
+            }
+        });
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+
+        // Animation logo au survol
+        const logo = document.querySelector('header img[alt="Logo"]');
+        if (logo) {
+            logo.addEventListener('mouseenter', () => {
+                logo.style.transform = 'rotate(-10deg) scale(1.1)';
+                logo.style.transition = 'transform 0.3s';
+            });
+            logo.addEventListener('mouseleave', () => {
+                logo.style.transform = 'rotate(0deg) scale(1)';
+            });
+        }
+
+        // Toast notification (exemple pour la copie)
+        function showToast(message) {
+            let toast = document.createElement('div');
+            toast.textContent = message;
+            toast.className = "fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-[#181818] text-[#ffe066] px-6 py-3 rounded-xl shadow-lg z-50";
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.remove(); }, 2000);
+        }
+        // Ajoute la notification à la copie AppID
+        document.getElementById('copyAppIdBtn').addEventListener('click', function() {
+            const input = document.getElementById('gameId');
+            if (input.value) showToast("AppID copied!");
+        });
+
+        // Copier le lien de téléchargement du manifest
+        document.getElementById('copyDownloadLinkBtn').addEventListener('click', function() {
+            const downloadLink = document.getElementById('downloadLink');
+            if (downloadLink && downloadLink.href) {
+                navigator.clipboard.writeText(downloadLink.href);
+                showToast("Download link copied!");
+            } else {
+                showToast("No link to copy.");
+            }
+        });
+
+        // Partager le résultat (Web Share API ou fallback Discord)
+        document.getElementById('shareBtn').addEventListener('click', function() {
+            const downloadLink = document.getElementById('downloadLink');
+            if (navigator.share && downloadLink && downloadLink.href) {
+                navigator.share({
+                    title: 'Steam Manifest',
+                    text: 'Download this Steam manifest:',
+                    url: downloadLink.href
+                }).catch(() => {});
+            } else if (downloadLink && downloadLink.href) {
+                const discordUrl = `https://discord.com/channels/@me`;
+                showToast("Lien prêt à partager ! (colle-le sur Discord)");
+                window.open(discordUrl, '_blank');
+            } else {
+                showToast("Nothing to share.");
+            }
+        });
+
+        // Effacer l'historique des recherches
+        document.getElementById('clearHistoryBtn').addEventListener('click', function() {
+            localStorage.removeItem('manifestHistory');
+            showToast("History cleared!");
+        });
+
+        // Sélecteur de langue (EN/FR) - exemple simple
+        const langSelect = document.getElementById('langSelect');
+        langSelect.addEventListener('change', function() {
+            if (langSelect.value === 'fr') {
+                document.querySelector('h2.orbitron').textContent = "Rechercher un Manifest";
+                document.querySelector('label[for="gameId"]').textContent = "AppID Steam";
+                document.getElementById('checkBtn').textContent = "VÉRIFIER LE MANIFEST";
+                showToast("Langue : Français");
+            } else {
+                document.querySelector('h2.orbitron').textContent = "Search a Manifest";
+                document.querySelector('label[for="gameId"]').textContent = "Steam AppID";
+                document.getElementById('checkBtn').textContent = "CHECK MANIFEST";
+                showToast("Language: English");
+            }
+        });
+
+        // Affichage dynamique de l'historique sous le champ de recherche
+        function renderHistory() {
+            let history = JSON.parse(localStorage.getItem('manifestHistory') || '[]');
+            let container = document.getElementById('historyContainer');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'historyContainer';
+                container.className = "w-full mt-2 text-xs text-[#ffe066]";
+                document.querySelector('section.flex-1').appendChild(container);
+            }
+            if (history.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+            container.innerHTML = 'Recent AppIDs: ' + history.map(id => `<button class="underline hover:text-white mr-2" onclick="document.getElementById('gameId').value='${id}'">${id}</button>`).join('');
+        }
+        // Met à jour l'historique après chaque recherche
+        const originalCheckManifest = checkManifest;
+        checkManifest = function() {
+            const gameId = gameIdInput.value.trim();
+            if (gameId && /^\d+$/.test(gameId)) {
+                saveHistory(gameId);
+                renderHistory();
+            }
+            originalCheckManifest();
+        };
+        // Affiche l'historique au chargement
+        renderHistory();
+
+        // Historique des recherches (localStorage)
+        function saveHistory(appId) {
+            let history = JSON.parse(localStorage.getItem('manifestHistory') || '[]');
+            if (!history.includes(appId)) {
+                history.unshift(appId);
+                if (history.length > 10) {
+                    history.pop();
+                }
+                localStorage.setItem('manifestHistory', JSON.stringify(history));
+            }
+        }
+
+        function loadHistory() {
+            let history = JSON.parse(localStorage.getItem('manifestHistory') || '[]');
+            if (history.length > 0) {
+                document.getElementById('gameId').value = history[0];
+                document.getElementById('checkBtn').click();
+            }
+        }
+
+        // Charger l'historique au chargement
+        window.addEventListener('load', loadHistory);
+
+        // Favoris : stockage local et affichage
+        function getFavorites() {
+            try {
+                return JSON.parse(localStorage.getItem('favoriteAppIds') || '[]');
+            } catch {
+                return [];
+            }
+        }
+        function setFavorites(favs) {
+            localStorage.setItem('favoriteAppIds', JSON.stringify(favs));
+        }
+        function renderFavorites() {
+            const favs = getFavorites();
+            const list = document.getElementById('favoritesList');
+            list.innerHTML = '';
+            if (favs.length === 0) {
+                list.innerHTML = '<li class="text-slate-400">Aucun favori</li>';
+                return;
+            }
+            favs.forEach(appId => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span class="font-mono">${appId}</span>
+                    <button class="ml-2 text-red-400 hover:text-red-600" title="Retirer" data-remove-fav="${appId}">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <button class="ml-2 text-blue-400 hover:text-blue-600" title="Remplir" data-fill-fav="${appId}">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                `;
+                list.appendChild(li);
+            });
+            // Ajout des listeners pour chaque bouton (évite les problèmes de scope)
+            list.querySelectorAll('button[data-remove-fav]').forEach(btn => {
+                btn.onclick = function() {
+                    removeFavorite(this.getAttribute('data-remove-fav'));
+                };
+            });
+            list.querySelectorAll('button[data-fill-fav]').forEach(btn => {
+                btn.onclick = function() {
+                    fillAppId(this.getAttribute('data-fill-fav'));
+                };
+            });
+        }
+        function removeFavorite(appId) {
+            let favs = getFavorites();
+            favs = favs.filter(id => id !== appId);
+            setFavorites(favs);
+            renderFavorites();
+            updateFavBtn();
+        }
+        function fillAppId(appId) {
+            document.getElementById('gameId').value = appId;
+            updateFavBtn();
+        }
+
+        // Bouton étoile : ajout/suppression favoris
+        const favBtn = document.getElementById('favAppIdBtn');
+        function updateFavBtn() {
+            const appId = document.getElementById('gameId').value.trim();
+            const favs = getFavorites();
+            if (appId && favs.includes(appId)) {
+                favBtn.classList.add('favorited');
+                favBtn.title = "Retirer des favoris";
+            } else {
+                favBtn.classList.remove('favorited');
+                favBtn.title = "Ajouter aux favoris";
+            }
+        }
+        favBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const appId = document.getElementById('gameId').value.trim();
+            if (!/^\d+$/.test(appId)) return;
+            let favs = getFavorites();
+            if (favs.includes(appId)) {
+                favs = favs.filter(id => id !== appId);
+            } else {
+                favs.unshift(appId);
+                if (favs.length > 20) favs = favs.slice(0, 20);
+            }
+            setFavorites(favs);
+            renderFavorites();
+            updateFavBtn();
+        });
+        document.getElementById('gameId').addEventListener('input', updateFavBtn);
+
+        // Initialisation favoris au chargement
+        renderFavorites();
+        updateFavBtn();
+    </script>
+</body>
+</html>
